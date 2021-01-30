@@ -27,44 +27,53 @@ connection.connect(function(err) {
 function start() {
   inquirer
     .prompt({
-      name: "postOrBid",
+      name: "addOrView",
       type: "list",
-      message: "Would you like to [POST] an auction or [BID] on an auction?",
-      choices: ["POST", "BID", "EXIT"]
+      message: "What would you like to do?",
+      choices: ["Add new employee", "View an exsisting employee", "Update employee role", "Exit"]
     })
     .then(function(answer) {
       // based on their answer, either call the bid or the post functions
-      if (answer.postOrBid === "POST") {
-        postAuction();
+      if (answer.addOrView === "Add new employee") {
+        addEmployee();
       }
-      else if(answer.postOrBid === "BID") {
-        bidAuction();
-      } else{
+      else if (answer.addOrView === "View an exsisting employee") {
+        viewEmployee();
+
+      }
+      
+      else if (answer.addOrView === "Update employee role") {
+        updateEmployee();
+      
+      } else { 
         connection.end();
       }
+
     });
 }
 
 // function to handle posting new items up for auction
-function postAuction() {
+function addEmployee() {
   // prompt for info about the item being put up for auction
   inquirer
     .prompt([
       {
-        name: "item",
+        name: "item1",
         type: "input",
-        message: "What is the item you would like to submit?"
+        message: "What is the new employees First name?"
       },
       {
-        name: "category",
+        name: "item2",
         type: "input",
-        message: "What category would you like to place your auction in?"
+        message: "What is the new employees last name?"
       },
       {
-        name: "startingBid",
-        type: "input",
-        message: "What would you like your starting bid to be?",
-        validate: function(value) {
+        name: "Title",
+        type: "list",
+        message: "What is the employees role?",
+        choices: ["Engineer", "Intern", "Build Team"]
+        
+        validate: function (value) {
           if (isNaN(value) === false) {
             return true;
           }
@@ -77,9 +86,9 @@ function postAuction() {
       connection.query(
         "INSERT INTO auctions SET ?",
         {
-          item_name: answer.item,
-          category: answer.category,
-          starting_bid: answer.startingBid || 0,
+          first_name: answer.item1,
+          last_name: answer.item2,
+          role : answer.startingBid || 0,
           highest_bid: answer.startingBid || 0
         },
         function(err) {

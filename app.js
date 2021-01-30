@@ -71,7 +71,7 @@ function addEmployee() {
         name: "Title",
         type: "list",
         message: "What is the employees role?",
-        choices: ["Engineer", "Intern", "Build Team"]
+        choices: ["Engineer", "Intern", ""]
         
         validate: function (value) {
           if (isNaN(value) === false) {

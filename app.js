@@ -1,6 +1,9 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 var figlet = require('figlet');
+var add = require("./lib/add");
+var view = require("./lib/view");
+var update = require("./lib/update");
 
 // create the connection information for the sql database
 var connection = mysql.createConnection({
@@ -77,10 +80,10 @@ function addEmployee() {
         message: "What is the new employees last name?"
       },
       {
-        name: "Title",
+        name: "department",
         type: "list",
-        message: "What is the employees role?",
-        choices: ["roles"]
+        message: "What department is this employee assigned to?",
+        choices: ["Accounting", "Floormanagment", "Human Resources", "Marketing", "Training"]
         
       
       },

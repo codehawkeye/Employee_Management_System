@@ -58,12 +58,12 @@ function addEmployee() {
   inquirer
     .prompt([
       {
-        name: "item1",
+        name: "first_Name",
         type: "input",
         message: "What is the new employees First name?"
       },
       {
-        name: "item2",
+        name: "last_Name",
         type: "input",
         message: "What is the new employees last name?"
       },
@@ -71,23 +71,18 @@ function addEmployee() {
         name: "Title",
         type: "list",
         message: "What is the employees role?",
-        choices: ["Engineer", "Intern", ""]
+        choices: ["roles"]
         
-        validate: function (value) {
-          if (isNaN(value) === false) {
-            return true;
-          }
-          return false;
-        }
-      }
+      
+      },
     ])
     .then(function(answer) {
       // when finished prompting, insert a new item into the db with that info
       connection.query(
         "INSERT INTO auctions SET ?",
         {
-          first_name: answer.item1,
-          last_name: answer.item2,
+          first_name: answer.fName,
+          last_name: answer.lName,
           role : answer.startingBid || 0,
           highest_bid: answer.startingBid || 0
         },

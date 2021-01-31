@@ -1,0 +1,2 @@
+app.js = First app function choose choose add, view, change role
+choice.js= if functions from app.js ex: 

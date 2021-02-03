@@ -1,10 +1,7 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 var figlet = require('figlet');
-var add = require("./lib/add");
-var view = require("./lib/view");
-var update = require("./lib/update");
-
+var roles =[]
 // create the connection information for the sql database
 var connection = mysql.createConnection({
   host: "localhost",
@@ -80,30 +77,34 @@ function addEmployee() {
         message: "What is the new employees last name?"
       },
       {
-        name: "department",
+        name: "role",
         type: "list",
-        message: "What department is this employee assigned to?",
-        choices: ["Accounting", "Floormanagment", "Human Resources", "Marketing", "Training"]
-        
-      
-      },
+        message: "What is the employees role?",
+        choices: roles
+      }
     ])
-    .then(function(answer) {
+    .then(function (answers) {
+      var roleId = null;
+      for (var i = 0; i < rolesResults.length; i++) {
+        if (rolesResults[i].title === answers.role) {
+          roleId = rolesResults[i].rol_id
+        }
+      }
+      
       // when finished prompting, insert a new item into the db with that info
       connection.query(
-        "INSERT INTO auctions SET ?",
+        "INSERT INTO employees SET ?",
         {
-          first_name: answer.fName,
-          last_name: answer.lName,
-          role : answer.startingBid || 0,
-          highest_bid: answer.startingBid || 0
+          first_name: answer.first_Name,
+          last_name: answer.last_Name,
+          role_id: answer.roleId,
         },
-        function(err) {
+        function (err) {
           if (err) throw err;
-          console.log("Your auction was created successfully!");
+          console.log("Your new employee was created successfully!");
           // re-prompt the user for if they want to bid or post
           start();
         }
-      );
+      )
     });
 }
